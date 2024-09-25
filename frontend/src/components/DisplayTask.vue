@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, ref, watch} from "vue";
 import axios from "@/lib/axios.js";
 const tasks = ref(null)
 const showSuccessMessage = ref(false)
@@ -7,6 +7,12 @@ const taskModal = ref(false)
 const title = ref(null);
 const description = ref(null);
 const SuccessMessage = ref(null)
+const props = defineProps({
+  ticker: {
+    type: Number,
+    required: true
+  }
+});
 const getTasks = async() => {
   try {
     const response = await axios.get('/todo')
@@ -77,6 +83,10 @@ const updateTask = async ()=>{
 onBeforeMount(()=>{
   getTasks();
 })
+watch(() => props.ticker, () => {
+  getTasks();
+
+});
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 <script setup>
 import {ref} from "vue";
 import axios from "@/lib/axios.js";
+const emit = defineEmits(['submit'])
 const title = ref(null);
 const description = ref(null);
 const showSuccessMessage = ref(false)
@@ -16,7 +17,9 @@ const addTask = async () =>{
     setTimeout(() => {
       showSuccessMessage.value = false;
     }, 3000);
-
+    emit('submit');
+    title.value = null;
+    description.value = null;
   } catch (error) {
     console.log(error)
   }
